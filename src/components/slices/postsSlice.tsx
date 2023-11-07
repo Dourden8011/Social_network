@@ -1,6 +1,19 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { type PayloadAction, createSlice } from '@reduxjs/toolkit'
 
-export const initialState = {
+interface Post {
+  id: string
+  userId?: string
+  title: string
+  body: string
+}
+
+interface InitialState {
+  loading: boolean
+  hasErrors: boolean
+  posts: Post[]
+}
+
+export const initialState: InitialState = {
   loading: false,
   hasErrors: false,
   posts: []
@@ -22,10 +35,9 @@ const postsSlice = createSlice({
       state.loading = false
       state.hasErrors = true
     },
-    addPost: (state, action) => {
-      console.log(action)
+    addPost: (state, action: PayloadAction<Post>) => {
       const post = {
-        id: state.posts.length + 1,
+        id: (state.posts.length + 1).toString(),
         title: action.payload.title,
         body: action.payload.body
       }
@@ -36,21 +48,19 @@ const postsSlice = createSlice({
 
 export const { getPosts, getPostsSuccess, getPostsFailure, addPost } = postsSlice.actions
 
-export const postsSelector = (state) => state.posts
-
 export default postsSlice.reducer
 
-export function fetchPosts () {
-  return async (dispatch) => {
-    dispatch(getPosts())
+// export function fetchPosts () {
+//   return async (dispatch) => {
+//     dispatch(getPosts())
 
-    try {
-      const response = await fetch('https://jsonplaceholder.typicode.com/posts')
-      const data = await response.json()
+//     try {
+//       const response = await fetch('https://jsonplaceholder.typicode.com/posts')
+//       const data = await response.json()
 
-      dispatch(getPostsSuccess(data))
-    } catch (error) {
-      dispatch(getPostsFailure())
-    }
-  }
-}
+//       dispatch(getPostsSuccess(data))
+//     } catch (error) {
+//       dispatch(getPostsFailure())
+//     }
+//   }
+// }

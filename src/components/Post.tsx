@@ -1,13 +1,18 @@
 import React from 'react'
-import type { PostObj } from './Posts'
 
-interface Props {
-  post: PostObj
+interface PostProps {
+  id: string
+  title: string
+  body: string
 }
 
-const Post: React.FC<Props> = ({ post }) => {
+interface PostItem {
+  post: PostProps
+}
+
+const Post: React.FC<PostItem> = ({ post }) => {
   return (
-    <li>
+    <li style={{ listStyle: 'none' }}>
       <h3>{post.id}</h3>
       <h2>{post.title}</h2>
       <p>{post.body}</p>

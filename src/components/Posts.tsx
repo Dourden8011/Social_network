@@ -1,23 +1,12 @@
-import React, { useEffect, useState } from 'react'
-import { connect } from 'react-redux'
+import React from 'react'
 import { styled } from '@mui/material/styles'
 import Paper from '@mui/material/Paper'
 import { Button, Container, Stack, TextField, Typography } from '@mui/material'
 import Post from './Post'
-import { fetchPosts } from '../actions/postActions'
+import { useAppDispatch, useAppSelector } from './hooks'
+import { addPost } from './slices/postsSlice'
 
-export interface PostObj {
-  id: string
-  title: string
-  body: string
-}
-
-export interface ReduxObj {
-  dispatch: any
-  posts: any
-}
-
-const Posts: React.FC<ReduxObj> = ({ dispatch, posts }) => {
+const Posts: React.FC = () => {
   const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
     ...theme.typography.body2,
@@ -25,30 +14,25 @@ const Posts: React.FC<ReduxObj> = ({ dispatch, posts }) => {
     textAlign: 'center',
     color: theme.palette.text.secondary
   }))
+  const dispatch = useAppDispatch()
 
-  const [newPosts, setPosts] = useState<PostObj[]>([])
-
-  useEffect(() => {
-    dispatch(fetchPosts())
-  }, [dispatch])
-
-  const handleSubmit: React.FormEventHandler<HTMLFormElement> = e => {
+  const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault()
     const formData = new FormData(e.currentTarget)
 
     const title = formData.get('title') as string
     const body = formData.get('body') as string
 
-    setPosts([
-      ...newPosts,
-      {
-        id: (newPosts.length + 1).toString(),
-        title,
-        body
-      }
-    ])
+    dispatch(addPost({
+      id: '',
+      title,
+      body
+    }))
+
     e.currentTarget.reset()
   }
+
+  const posts = useAppSelector((state) => state.posts.posts)
 
   return (
     <Container
@@ -72,7 +56,7 @@ const Posts: React.FC<ReduxObj> = ({ dispatch, posts }) => {
             name='title'
             required
             id="outlined-required"
-            label="Title"
+            label="title"
             sx={{ width: '100%', mb: 2 }}
           />
           <TextField
@@ -92,21 +76,17 @@ const Posts: React.FC<ReduxObj> = ({ dispatch, posts }) => {
             Submit
           </Button>
         </form>
-        <ul>
-          {posts.reverse().map((item: PostObj) => (
-            <Item key={item.id}>
-              <Post post={item}/>
-            </Item>
-          ))}
+        <ul style={{ padding: '0' }}>
+          <Item>
+            {[...posts].reverse().map(post => (
+              <Post key={post.id}
+              post={post}/>)
+            )}
+          </Item>
         </ul>
       </Stack>
     </Container>
   )
 }
 
-// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-const mapStateToProps = (state: { posts: { posts: any } }) => ({
-  posts: state.posts.posts
-})
-
-export default connect(mapStateToProps)(Posts)
+export default Posts
