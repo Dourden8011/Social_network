@@ -1,10 +1,10 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { styled } from '@mui/material/styles'
 import Paper from '@mui/material/Paper'
 import { Button, Container, Stack, TextField, Typography } from '@mui/material'
 import Post from './Post'
 import { useAppDispatch, useAppSelector } from './hooks'
-import { addPost } from './slices/postsSlice'
+import { addPost, fetchPosts } from './slices/postsSlice'
 
 const Posts: React.FC = () => {
   const Item = styled(Paper)(({ theme }) => ({
@@ -14,7 +14,12 @@ const Posts: React.FC = () => {
     textAlign: 'center',
     color: theme.palette.text.secondary
   }))
+
   const dispatch = useAppDispatch()
+
+  useEffect(() => {
+    void dispatch(fetchPosts())
+  }, [dispatch])
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault()
