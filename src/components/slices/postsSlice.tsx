@@ -9,13 +9,13 @@ interface Post {
 
 interface InitialState {
   loading: boolean
-  hasErrors: boolean
+  hasErrors: string | undefined
   posts: Post[]
 }
 
 export const initialState: InitialState = {
   loading: false,
-  hasErrors: false,
+  hasErrors: undefined,
   posts: []
 }
 
@@ -25,12 +25,10 @@ export const fetchPosts = createAsyncThunk<Post[], undefined, { rejectValue: str
     const response = await fetch('https://jsonplaceholder.typicode.com/posts')
 
     if (!response.ok) {
-      return rejectWithValue('Error!')
+      return rejectWithValue('Can/t get posts :(')
     }
 
     const data = await response.json()
-
-    console.log(data)
 
     return data
   }
@@ -52,16 +50,15 @@ const postsSlice = createSlice({
   extraReducers: builder => {
     builder.addCase(fetchPosts.pending, (state) => {
       state.loading = true
-      state.hasErrors = false
     })
       .addCase(fetchPosts.fulfilled, (state, action) => {
         state.posts = action.payload
         state.loading = false
-        state.hasErrors = false
+        state.hasErrors = undefined
       })
-      .addCase(fetchPosts.rejected, (state) => {
+      .addCase(fetchPosts.rejected, (state, action) => {
         state.loading = false
-        state.hasErrors = true
+        state.hasErrors = action.payload
       })
   }
 })

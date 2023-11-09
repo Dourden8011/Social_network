@@ -37,7 +37,8 @@ const Posts: React.FC = () => {
     e.currentTarget.reset()
   }
 
-  const posts = useAppSelector((state) => state.posts.posts)
+  const posts = useAppSelector(state => state.posts.posts)
+  const { loading, hasErrors } = useAppSelector(state => state.posts)
 
   return (
     <Container
@@ -81,6 +82,8 @@ const Posts: React.FC = () => {
             Submit
           </Button>
         </form>
+        {loading && <h2>Loading...</h2>}
+        {(hasErrors != null) && <h2>Error:{hasErrors}</h2>}
         <ul style={{ padding: '0' }}>
           <Item>
             {[...posts].reverse().map(post => (
