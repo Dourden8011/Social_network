@@ -1,0 +1,25 @@
+{
+  "users": [
+    {
+      "email": "test1@gmail.com",
+      "password": "$2a$10$ytwbzE3KYebPM.iBntVa1ODt3wlqH/B5JqWiGLef8yPJn8WsZCr6e",
+      "id": 1,
+      "firstname": "Roman",
+      "lastname": "Shav"
+    }
+  ],
+  "posts": [
+    {
+      "id": 1,
+      "title": "fghdfg",
+      "body": "45345345345",
+      "userId": 1
+    },
+    {
+      "id": 2,
+      "title": "fghdfg",
+      "body": "45345345345",
+      "userId": 1
+    }
+  ]
+}

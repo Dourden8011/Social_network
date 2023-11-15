@@ -1,10 +1,11 @@
-import React, { useEffect } from 'react'
+import React, { type FormEvent } from 'react'
 import { styled } from '@mui/material/styles'
 import Paper from '@mui/material/Paper'
-import { Button, Container, Stack, TextField, Typography } from '@mui/material'
+import { Button, Container, Stack, TextField, Typography, Link } from '@mui/material'
+import { networkApi } from '../Redux/networkApi'
 import Post from './Post'
-import { useAppDispatch, useAppSelector } from './hooks'
-import { addPost, fetchPosts } from './slices/postsSlice'
+import { Link as LinkRouter } from 'react-router-dom'
+import { useAppSelector } from '../Redux/store'
 
 const Posts: React.FC = () => {
   const Item = styled(Paper)(({ theme }) => ({
@@ -14,31 +15,39 @@ const Posts: React.FC = () => {
     textAlign: 'center',
     color: theme.palette.text.secondary
   }))
+  const user = useAppSelector(state => state.auth.user)
+  const { data = [], isLoading, error } = networkApi.useGetPostsQuery('')
 
-  const dispatch = useAppDispatch()
+  const isError = (): string | undefined => {
+    if (error != null) {
+      if ('status' in error) {
+        const errMsg = 'error' in error ? error.error : JSON.stringify(error.data)
+        return errMsg
+      } else {
+        const errMsg = error.message
+        return errMsg
+      }
+    }
+  }
 
-  useEffect(() => {
-    void dispatch(fetchPosts())
-  }, [dispatch])
+  const [newPost] = networkApi.useNewPostMutation()
 
-  const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
-    e.preventDefault()
-    const formData = new FormData(e.currentTarget)
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>): Promise<void> => {
+    event.preventDefault()
+
+    const formData = new FormData(event.currentTarget)
 
     const title = formData.get('title') as string
     const body = formData.get('body') as string
+    event.currentTarget?.reset()
 
-    dispatch(addPost({
+    await newPost({
       id: '',
       title,
-      body
-    }))
-
-    e.currentTarget.reset()
+      body,
+      userId: user?.id
+    })
   }
-
-  const posts = useAppSelector(state => state.posts.posts)
-  const { loading, hasErrors } = useAppSelector(state => state.posts)
 
   return (
     <Container
@@ -46,7 +55,8 @@ const Posts: React.FC = () => {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        width: '250ch'
+        width: '250ch',
+        mt: '100px'
       }}
     >
       <Stack
@@ -57,7 +67,9 @@ const Posts: React.FC = () => {
           New Post
         </Typography>
 
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={e => {
+          void handleSubmit(e)
+        }}>
           <TextField
             name='title'
             required
@@ -82,11 +94,20 @@ const Posts: React.FC = () => {
             Submit
           </Button>
         </form>
-        {loading && <h2>Loading...</h2>}
-        {(hasErrors != null) && <h2>Error:{hasErrors}</h2>}
+        {isLoading && <h2>Loading...{isLoading}</h2>}
+        {(error != null) && <h2>Error:{isError()}
+          Please,
+          <Link component={LinkRouter} to="/signin" underline="none">
+          {' login '}
+          </Link>
+          or
+          <Link component={LinkRouter} to="/signun" underline="none">
+          {' register'}
+          </Link>
+        </h2>}
         <ul style={{ padding: '0' }}>
-          <Item>
-            {[...posts].reverse().map(post => (
+          <Item elevation={12}>
+            {[...data].reverse().map(post => (
               <Post key={post.id}
               post={post}/>)
             )}
