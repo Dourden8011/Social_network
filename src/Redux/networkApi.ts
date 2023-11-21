@@ -55,7 +55,23 @@ export const networkApi = createApi({
       }),
       invalidatesTags: ['Post']
     }),
-    newUser: build.mutation<User, User>({
+    deletePost: build.mutation<Post, Post>({
+      query: (post) => ({
+        url: `posts/${post.id}`,
+        method: 'DELETE',
+        body: post
+      }),
+      invalidatesTags: ['Post']
+    }),
+    editPost: build.mutation<Post, Post>({
+      query: (post) => ({
+        url: `posts/${post.id}`,
+        method: 'PUT',
+        body: post
+      }),
+      invalidatesTags: ['Post']
+    }),
+    newUser: build.mutation<UserResponse, User>({
       query: (user) => ({
         url: 'signup',
         method: 'POST',
@@ -67,10 +83,17 @@ export const networkApi = createApi({
         url: 'signin',
         method: 'POST',
         body: { ...credentials }
-      })
-      // providesTags: (result, error, id, email, password) => [{ type: 'User', result, error, id, email, password }]
+      }),
+      invalidatesTags: ['Post']
     })
   })
 })
 
-export const { useGetPostsQuery, useNewPostMutation, useNewUserMutation, useAuthUserMutation } = networkApi
+export const {
+  useGetPostsQuery,
+  useNewPostMutation,
+  useNewUserMutation,
+  useAuthUserMutation,
+  useDeletePostMutation,
+  useEditPostMutation
+} = networkApi

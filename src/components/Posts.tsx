@@ -1,11 +1,12 @@
-import React, { type FormEvent } from 'react'
+import React from 'react'
 import { styled } from '@mui/material/styles'
 import Paper from '@mui/material/Paper'
-import { Button, Container, Stack, TextField, Typography, Link } from '@mui/material'
+import { Container, Stack, Typography, Link } from '@mui/material'
 import { networkApi } from '../Redux/networkApi'
-import Post from './Post'
+import Post, { type PostProps } from './Post'
 import { Link as LinkRouter } from 'react-router-dom'
-import { useAppSelector } from '../Redux/store'
+import PostForm from './PostForm'
+import PostFormUnauth from './PostFormUnauth'
 
 const Posts: React.FC = () => {
   const Item = styled(Paper)(({ theme }) => ({
@@ -15,7 +16,7 @@ const Posts: React.FC = () => {
     textAlign: 'center',
     color: theme.palette.text.secondary
   }))
-  const user = useAppSelector(state => state.auth.user)
+
   const { data = [], isLoading, error } = networkApi.useGetPostsQuery('')
 
   const isError = (): string | undefined => {
@@ -28,25 +29,6 @@ const Posts: React.FC = () => {
         return errMsg
       }
     }
-  }
-
-  const [newPost] = networkApi.useNewPostMutation()
-
-  const handleSubmit = async (event: FormEvent<HTMLFormElement>): Promise<void> => {
-    event.preventDefault()
-
-    const formData = new FormData(event.currentTarget)
-
-    const title = formData.get('title') as string
-    const body = formData.get('body') as string
-    event.currentTarget?.reset()
-
-    await newPost({
-      id: '',
-      title,
-      body,
-      userId: user?.id
-    })
   }
 
   return (
@@ -66,34 +48,8 @@ const Posts: React.FC = () => {
         <Typography variant="h6">
           New Post
         </Typography>
+        {(error != null) ? <PostFormUnauth/> : <PostForm/> }
 
-        <form onSubmit={e => {
-          void handleSubmit(e)
-        }}>
-          <TextField
-            name='title'
-            required
-            id="outlined-required"
-            label="title"
-            sx={{ width: '100%', mb: 2 }}
-          />
-          <TextField
-            required
-            name='body'
-            id="outlined-multiline-flexible"
-            label="Description"
-            multiline
-            maxRows={10}
-            sx={{ width: '100%', mb: 2 }}
-          />
-          <Button
-            type='submit'
-            variant="contained"
-            sx={{ width: '100%' }}
-          >
-            Submit
-          </Button>
-        </form>
         {isLoading && <h2>Loading...{isLoading}</h2>}
         {(error != null) && <h2>Error:{isError()}
           Please,
@@ -101,17 +57,21 @@ const Posts: React.FC = () => {
           {' login '}
           </Link>
           or
-          <Link component={LinkRouter} to="/signun" underline="none">
+          <Link component={LinkRouter} to="/signup" underline="none">
           {' register'}
           </Link>
         </h2>}
         <ul style={{ padding: '0' }}>
-          <Item elevation={12}>
             {[...data].reverse().map(post => (
-              <Post key={post.id}
-              post={post}/>)
+              <Item
+                key={post.id}
+                elevation={12}
+                sx={{ mb: 2 }}
+              >
+                <Post post={post as PostProps}/>
+              </Item>
+            )
             )}
-          </Item>
         </ul>
       </Stack>
     </Container>
