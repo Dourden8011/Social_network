@@ -2,14 +2,17 @@ import React, { type FormEvent, useState } from 'react'
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined'
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined'
 import { networkApi } from '../Redux/networkApi'
-import { Box, Button, TextField } from '@mui/material'
+import { Box, Button, Grid, TextField } from '@mui/material'
 import DoneOutlineOutlinedIcon from '@mui/icons-material/DoneOutlineOutlined'
+import CancelIcon from '@mui/icons-material/Cancel'
+import { useAppSelector } from '../Redux/store'
 
 export interface PostProps {
   id: string
   title: string
   body: string
   userId: string
+  date: string
 }
 
 interface PostItem {
@@ -34,11 +37,25 @@ const Post: React.FC<PostItem> = ({ post }: PostItem) => {
       id: post.id,
       title,
       body,
-      userId: post.userId
+      userId: post.userId,
+      date: ` edited: ${new Date().toLocaleString('en', {
+        year: 'numeric',
+        month: 'numeric',
+        day: 'numeric'
+      })}`
     })
   }
 
   const [active, setActive] = useState(false)
+
+  const user = useAppSelector(state => state.auth.user)
+
+  const usersData = networkApi.useGetUsersQuery('').data
+
+  const findName = (post: PostProps): string => {
+    const user = usersData?.find(user => user.id === post.userId)
+    return user?.firstname as string
+  }
 
   if (!active) {
     return (
@@ -48,21 +65,24 @@ const Post: React.FC<PostItem> = ({ post }: PostItem) => {
           justifyContent: 'space-between'
         }}>
           <Box ml={2}>
-            {post.userId}
+            {findName(post)}
+            {post.date}
           </Box>
-          <Box>
-          <DeleteOutlinedIcon style={{ float: 'right' }} onClick={() => {
-            void handleDelete(post)
-          }}/>
-          <EditOutlinedIcon style={{ float: 'right' }}
-          onClick={() => {
-            setActive(true)
-          }}
-          />
-          </Box>
+          {(user?.id === post.userId) &&
+            <Box>
+              <DeleteOutlinedIcon style={{ float: 'right' }} onClick={() => {
+                void handleDelete(post)
+              }} />
+              <EditOutlinedIcon style={{ float: 'right' }}
+                onClick={() => {
+                  setActive(true)
+                }}
+              />
+            </Box>
+          }
         </h3>
         <h2>{post.title}</h2>
-        <p>{post.body}</p>
+        <Grid>{post.body}</Grid>
       </li>
     )
   } else {
@@ -70,41 +90,53 @@ const Post: React.FC<PostItem> = ({ post }: PostItem) => {
       <li style={{ listStyle: 'none' }}>
         <h3 style={{ float: 'left' }}>
           <Box ml={2}>
-            {post.userId}
+            {findName(post)}
+            {post.date}
           </Box>
         </h3>
         <form name="editForm" onSubmit={event => {
           void handleEdit(event)
           setActive(false)
         }}>
-          <h2><TextField
-          name='title'
-          variant="filled"
-          placeholder={post.title}
-          sx={{ width: '100%' }}
-          defaultValue={post.title}
-          onFocus={e => {
-            e.target.select()
-          }}/>
-          </h2>
-          <p><TextField
-          name='body'
-          variant="filled"
-          placeholder={post.body}
-          sx={{ width: '100%' }}
-          defaultValue={post.body}
-          onFocus={e => {
-            e.target.select()
-          }}/>
-          </p>
-          <Button
-          type='submit'
-          variant="contained"
-          sx={{ width: '100%' }}
-          >
-          <DoneOutlineOutlinedIcon />
-        </Button>
-      </form>
+          <TextField
+            name='title'
+            variant="filled"
+            placeholder={post.title}
+            sx={{ width: '92%', m: 1 }}
+            defaultValue={post.title}
+            onFocus={e => {
+              e.target.select()
+            }} />
+
+          <TextField
+            name='body'
+            variant="filled"
+            placeholder={post.body}
+            sx={{ width: '92%' }}
+            defaultValue={post.body}
+            onFocus={e => {
+              e.target.select()
+            }} />
+          <Box sx={{ '& button': { m: 1 } }}>
+            <Button
+              type='submit'
+              variant="contained"
+              sx={{ width: '45%' }}
+            >
+              <DoneOutlineOutlinedIcon />
+            </Button>
+
+            <Button
+            type='button'
+            variant="contained"
+            sx={{ width: '45%' }}
+            onClick = {() => { setActive(false) }}
+            >
+              <CancelIcon/>
+            </Button>
+          </Box>
+
+        </form>
       </li>
     )
   }

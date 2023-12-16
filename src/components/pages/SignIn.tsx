@@ -38,6 +38,8 @@ const SignIn: React.FC = () => {
         user: data.user,
         accessToken: data.accessToken
       }))
+      localStorage.setItem('Token', data.accessToken)
+      localStorage.setItem('User', JSON.stringify(data.user))
       navigate('/')
     } catch (error) {
       if (isError(error) === '"Cannot find user"') {

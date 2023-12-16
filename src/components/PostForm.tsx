@@ -20,7 +20,12 @@ const PostForm: React.FC = () => {
       id: '',
       title,
       body,
-      userId: user?.id
+      userId: user?.id,
+      date: ` send: ${new Date().toLocaleString('en', {
+        year: 'numeric',
+        month: 'numeric',
+        day: 'numeric'
+      })}`
     })
   }
   return (
@@ -30,14 +35,16 @@ const PostForm: React.FC = () => {
       <TextField
         name='title'
         required
-        id="outlined-required"
+        id='title'
+        autoComplete='off'
         label="Title"
         sx={{ width: '100%', mb: 2 }}
       />
       <TextField
         required
         name='body'
-        id="outlined-multiline-flexible"
+        id='body'
+        autoComplete='off'
         label="Description"
         multiline
         maxRows={10}

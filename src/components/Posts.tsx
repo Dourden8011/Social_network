@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { styled } from '@mui/material/styles'
 import Paper from '@mui/material/Paper'
 import { Container, Stack, Typography, Link } from '@mui/material'
@@ -7,6 +7,8 @@ import Post, { type PostProps } from './Post'
 import { Link as LinkRouter } from 'react-router-dom'
 import PostForm from './PostForm'
 import PostFormUnauth from './PostFormUnauth'
+import { useAppDispatch } from '../Redux/store'
+import { setCredentials } from '../Redux/slices/authSlice'
 
 const Posts: React.FC = () => {
   const Item = styled(Paper)(({ theme }) => ({
@@ -17,7 +19,18 @@ const Posts: React.FC = () => {
     color: theme.palette.text.secondary
   }))
 
-  const { data = [], isLoading, error } = networkApi.useGetPostsQuery('')
+  const dispatch = useAppDispatch()
+  const { data = [], isLoading, error } = networkApi.useGetPostsQuery(''/* { pollingInterval: 3000 } */)
+
+  useEffect(() => {
+    const user = localStorage.getItem('User')
+    if (user !== null) {
+      dispatch(setCredentials({
+        user: JSON.parse(user),
+        accessToken: localStorage.getItem('Token')
+      }))
+    }
+  }, [])
 
   const isError = (): string | undefined => {
     if (error != null) {
@@ -67,8 +80,9 @@ const Posts: React.FC = () => {
                 key={post.id}
                 elevation={12}
                 sx={{ mb: 2 }}
+                // {...usersData?.find(user => user?.id === post.userId)}
               >
-                <Post post={post as PostProps}/>
+                <Post post={post as PostProps} /* user={user as User} *//>
               </Item>
             )
             )}

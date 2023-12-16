@@ -6,20 +6,74 @@
       "id": 1,
       "firstname": "Roman",
       "lastname": "Shav"
+    },
+    {
+      "email": "Test2@gmail.com",
+      "password": "$2a$10$zBAuKPtUXgwj.Hw0GCy8q.xF4J/iLfHY053HcS90ef69AaI4FD1Iq",
+      "id": 2,
+      "firstname": "TestName",
+      "lastname": "Test"
     }
   ],
   "posts": [
     {
-      "id": 3,
-      "title": "4434343",
-      "body": "gdfgdfgdf",
-      "userId": 1
+      "id": 6,
+      "title": "45",
+      "body": "34543",
+      "userId": 2
     },
     {
-      "id": 4,
-      "title": "fdgdfg123123",
-      "body": "1312312312fdgdfg",
-      "userId": 1
+      "id": 9,
+      "title": "567",
+      "body": "567",
+      "userId": 2
+    },
+    {
+      "id": 10,
+      "title": "4324",
+      "body": "23423423",
+      "userId": 2
+    },
+    {
+      "id": 12,
+      "title": "f",
+      "body": "f",
+      "userId": 2
+    },
+    {
+      "id": 16,
+      "title": "222222",
+      "body": "234",
+      "userId": 1,
+      "date": " edited: 12/16/2023"
+    },
+    {
+      "id": 17,
+      "title": "asdsadsa",
+      "body": "z",
+      "userId": 1,
+      "date": " edited: 12/16/2023"
+    },
+    {
+      "id": 18,
+      "title": "aaaaaaaaaaaaasd",
+      "body": "sadasdsad",
+      "userId": 1,
+      "date": " edited: 12/16/2023"
+    },
+    {
+      "id": 19,
+      "title": "ads",
+      "body": "dasd",
+      "userId": 1,
+      "date": " edited: 12/16/2023"
+    },
+    {
+      "id": 20,
+      "title": "dasd",
+      "body": "dashgjghj",
+      "userId": 1,
+      "date": " edited: 12/16/2023"
     }
   ]
 }

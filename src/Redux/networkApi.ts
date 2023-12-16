@@ -6,6 +6,7 @@ export interface Post {
   userId: string | undefined
   title: string
   body: string
+  date: string
 }
 
 export interface User {
@@ -33,13 +34,13 @@ export const networkApi = createApi({
     credentials: 'include',
     prepareHeaders: (headers, { getState }) => {
       const token = (getState() as RootState).auth.accessToken
-      if (token !== null) {
+      if (token != null) {
         headers.set('Authorization', `Bearer ${token}`)
       }
       return headers
     }
   }),
-  tagTypes: ['Post'],
+  tagTypes: ['Post', 'User'],
   endpoints: (build) => ({
     getPosts: build.query<Post[], string>({
       query: () => ({
@@ -85,6 +86,12 @@ export const networkApi = createApi({
         body: { ...credentials }
       }),
       invalidatesTags: ['Post']
+    }),
+    getUsers: build.query<User[], string>({
+      query: () => ({
+        url: 'users'
+      }),
+      providesTags: (result, error, id) => [{ type: 'User', id, error }]
     })
   })
 })
@@ -95,5 +102,6 @@ export const {
   useNewUserMutation,
   useAuthUserMutation,
   useDeletePostMutation,
-  useEditPostMutation
+  useEditPostMutation,
+  useGetUsersQuery
 } = networkApi
