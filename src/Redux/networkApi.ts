@@ -17,6 +17,11 @@ export interface User {
   password: string
 }
 
+export interface Vote {
+  user_id: string
+  post_id: string
+}
+
 export interface UserResponse {
   user: User
   accessToken: string
@@ -33,7 +38,7 @@ export const networkApi = createApi({
     baseUrl: 'http://localhost:4000/',
     credentials: 'include',
     prepareHeaders: (headers, { getState }) => {
-      const token = (getState() as RootState).auth.accessToken
+      const token = (getState() as RootState).auth.accessToken ?? localStorage.getItem('Token')
       if (token != null) {
         headers.set('Authorization', `Bearer ${token}`)
       }
@@ -92,6 +97,20 @@ export const networkApi = createApi({
         url: 'users'
       }),
       providesTags: (result, error, id) => [{ type: 'User', id, error }]
+    }),
+    newVote: build.mutation<Vote, Vote>({
+      query: (vote) => ({
+        url: 'votes',
+        method: 'POST',
+        body: vote
+      }),
+      invalidatesTags: ['Post']
+    }),
+    getVotes: build.query<Vote[], string>({
+      query: () => ({
+        url: 'votes'
+      }),
+      providesTags: (result, error, id) => [{ type: 'Post', id, error }]
     })
   })
 })
@@ -103,5 +122,7 @@ export const {
   useAuthUserMutation,
   useDeletePostMutation,
   useEditPostMutation,
-  useGetUsersQuery
+  useGetUsersQuery,
+  useNewVoteMutation,
+  useGetVotesQuery
 } = networkApi

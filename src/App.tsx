@@ -4,7 +4,7 @@ import SignIn from './components/pages/SignIn'
 import SignUp from './components/pages/SignUp'
 // import NotFoundPage from './components/pages/NotFoundPage'
 import { Typography, Toolbar, AppBar } from '@mui/material'
-import Posts from './components/Posts'
+import Posts from './components/Posts/Posts'
 import UserName from './components/UserName'
 
 const App: React.FC = () => (

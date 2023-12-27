@@ -17,63 +17,191 @@
   ],
   "posts": [
     {
+      "id": 1,
+      "title": "11111",
+      "body": "11111",
+      "userId": 1,
+      "date": " edit: 12/21/2023"
+    },
+    {
+      "id": 2,
+      "title": "222222",
+      "body": "2222222",
+      "userId": 1,
+      "date": " edit: 12/21/2023"
+    },
+    {
+      "id": 3,
+      "title": "dsd",
+      "body": "dsdasa",
+      "userId": 1,
+      "date": " send: 12/21/2023"
+    },
+    {
+      "id": 4,
+      "title": "ds",
+      "body": "sdds",
+      "userId": 1,
+      "date": " send: 12/21/2023"
+    },
+    {
+      "id": 5,
+      "title": "dsda",
+      "body": "dsadasd",
+      "userId": 1,
+      "date": " send: 12/21/2023"
+    },
+    {
       "id": 6,
-      "title": "45",
-      "body": "34543",
-      "userId": 2
+      "title": "4535",
+      "body": "dsdassad",
+      "userId": 1,
+      "date": " edit: 12/22/2023"
+    },
+    {
+      "id": 7,
+      "title": "dsf",
+      "body": "2134",
+      "userId": 1,
+      "date": " send: 12/21/2023"
+    },
+    {
+      "id": 8,
+      "title": "ВЫФВ",
+      "body": "5646456",
+      "userId": 2,
+      "date": " edit: 12/22/2023"
     },
     {
       "id": 9,
-      "title": "567",
-      "body": "567",
-      "userId": 2
+      "title": "aaaaaa",
+      "body": "aaaaaaa",
+      "userId": 1,
+      "date": " edit: 12/22/2023"
     },
     {
       "id": 10,
-      "title": "4324",
-      "body": "23423423",
-      "userId": 2
-    },
-    {
-      "id": 12,
-      "title": "f",
-      "body": "f",
-      "userId": 2
-    },
-    {
-      "id": 16,
-      "title": "222222",
-      "body": "234",
+      "title": "eeeee",
+      "body": "fefe",
       "userId": 1,
-      "date": " edited: 12/16/2023"
+      "date": " edit: 12/22/2023"
+    }
+  ],
+  "votes": [
+    {
+      "user_id": 1,
+      "post_id": 7,
+      "id": 1
     },
     {
-      "id": 17,
-      "title": "asdsadsa",
-      "body": "z",
-      "userId": 1,
-      "date": " edited: 12/16/2023"
+      "user_id": 1,
+      "post_id": 5,
+      "id": 2
     },
     {
-      "id": 18,
-      "title": "aaaaaaaaaaaaasd",
-      "body": "sadasdsad",
-      "userId": 1,
-      "date": " edited: 12/16/2023"
+      "user_id": 1,
+      "post_id": 6,
+      "id": 3
     },
     {
-      "id": 19,
-      "title": "ads",
-      "body": "dasd",
-      "userId": 1,
-      "date": " edited: 12/16/2023"
+      "user_id": 1,
+      "post_id": 3,
+      "id": 4
     },
     {
-      "id": 20,
-      "title": "dasd",
-      "body": "dashgjghj",
-      "userId": 1,
-      "date": " edited: 12/16/2023"
+      "user_id": 1,
+      "post_id": 1,
+      "id": 5
+    },
+    {
+      "user_id": 2,
+      "post_id": 4,
+      "id": 6
+    },
+    {
+      "user_id": 2,
+      "post_id": 4,
+      "id": 7
+    },
+    {
+      "user_id": 2,
+      "post_id": 4,
+      "id": 8
+    },
+    {
+      "user_id": 2,
+      "post_id": 4,
+      "id": 9
+    },
+    {
+      "user_id": 2,
+      "post_id": 4,
+      "id": 10
+    },
+    {
+      "user_id": 2,
+      "post_id": 4,
+      "id": 11
+    },
+    {
+      "user_id": 2,
+      "post_id": 8,
+      "id": 12
+    },
+    {
+      "user_id": 2,
+      "post_id": 2,
+      "id": 13
+    },
+    {
+      "user_id": 2,
+      "post_id": 3,
+      "id": 14
+    },
+    {
+      "user_id": 2,
+      "post_id": 5,
+      "id": 15
+    },
+    {
+      "user_id": 2,
+      "post_id": 7,
+      "id": 16
+    },
+    {
+      "user_id": 2,
+      "post_id": 1,
+      "id": 17
+    },
+    {
+      "user_id": 1,
+      "post_id": 8,
+      "id": 18
+    },
+    {
+      "user_id": 1,
+      "post_id": 4,
+      "id": 19
+    },
+    {
+      "user_id": 1,
+      "post_id": 2,
+      "id": 20
+    },
+    {
+      "user_id": 2,
+      "post_id": 9,
+      "id": 21
+    },
+    {
+      "user_id": 1,
+      "post_id": 9,
+      "id": 22
+    },
+    {
+      "user_id": 1,
+      "post_id": 10,
+      "id": 23
     }
   ]
 }

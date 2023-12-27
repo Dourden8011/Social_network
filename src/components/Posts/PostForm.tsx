@@ -1,7 +1,7 @@
 import { Button, TextField } from '@mui/material'
 import React, { type FormEvent } from 'react'
-import { networkApi } from '../Redux/networkApi'
-import { useAppSelector } from '../Redux/store'
+import { networkApi } from '../../Redux/networkApi'
+import { useAppSelector } from '../../Redux/store'
 
 const PostForm: React.FC = () => {
   const [newPost] = networkApi.useNewPostMutation()
